@@ -1,4 +1,5 @@
 import { useColorScheme } from '@/hooks/useColorScheme'
+import { SolanaClientProvider } from '@/lib/solana/solana-client-provider'
 import {
   BalooBhai2_400Regular,
   BalooBhai2_500Medium,
@@ -61,10 +62,12 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <SolanaClientProvider rpc="https://api.devnet.solana.com">
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </SolanaClientProvider>
       <StatusBar style="auto" />
     </ThemeProvider>
   )

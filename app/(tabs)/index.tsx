@@ -1,62 +1,30 @@
-import { AppText } from '@/components/app-text'
+import { AppSafeAreaView } from '@/components/app-safe-area-view'
 import { AppView } from '@/components/AppView'
-import ParallaxScrollView from '@/components/ParallaxScrollView'
-import { Image, Platform, StyleSheet } from 'react-native'
+import { useSolanaClient } from '@/lib/solana/solana-client-provider'
+import { Button, StyleSheet } from 'react-native'
 
 export default function HomeScreen() {
+  const { rpc } = useSolanaClient()
+
+  function test() {
+    rpc
+      .getVersion()
+      .send()
+      .then((res) => console.log(res))
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={<Image source={require('@/assets/images/partial-react-logo.png')} style={styles.reactLogo} />}
-    >
-      <AppView style={styles.titleContainer}>
-        <AppText type="title">Welcome!</AppText>
+    <AppSafeAreaView>
+      <AppView style={styles.page}>
+        <Button title={'test'} onPress={test} />
       </AppView>
-      <AppView style={styles.stepContainer}>
-        <AppText type="subtitle">Step 1: Try it</AppText>
-        <AppText>
-          Edit <AppText type="defaultSemiBold">app/(tabs)/index.tsx</AppText> to see changes. Press{' '}
-          <AppText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </AppText>{' '}
-          to open developer tools.
-        </AppText>
-      </AppView>
-      <AppView style={styles.stepContainer}>
-        <AppText type="subtitle">Step 2: Explore</AppText>
-        <AppText>Tap the Explore tab to learn more about what's included in this starter app.</AppText>
-      </AppView>
-      <AppView style={styles.stepContainer}>
-        <AppText type="subtitle">Step 3: Get a fresh start</AppText>
-        <AppText>
-          When you're ready, run <AppText type="defaultSemiBold">npm run reset-project</AppText> to get a fresh{' '}
-          <AppText type="defaultSemiBold">app</AppText> directory. This will move the current{' '}
-          <AppText type="defaultSemiBold">app</AppText> to <AppText type="defaultSemiBold">app-example</AppText>.
-        </AppText>
-      </AppView>
-    </ParallaxScrollView>
+    </AppSafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  page: {
     gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+    padding: 16,
   },
 })
